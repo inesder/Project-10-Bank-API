@@ -9,7 +9,7 @@ function Navbar(){
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/signin');
+    navigate('/login');
   };
     return(
         <nav className="main-nav">

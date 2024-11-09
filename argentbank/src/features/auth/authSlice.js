@@ -7,8 +7,7 @@ const userToken = localStorage.getItem('userToken') || null;
 
 const initialState = {
     loading: false,
-    userInfo: {}, // for user object
-    userToken: null, // for storing the JWT
+    userToken: localStorage.getItem('userToken') || null, // for storing the JWT
     error: null,
     success: false, // for monitoring the registration process.
   }
@@ -25,9 +24,10 @@ const initialState = {
       state.error = null
     })
     .addCase(userLogin.fulfilled, (state, { payload }) => {
+      console.log("Payload de userLogin.fulfilled:", payload);
+
       state.loading = false
-      state.userInfo = payload
-      state.userToken = payload.token
+      state.userToken = payload.body.token
     })
     .addCase(userLogin.rejected, (state, { payload }) => {
       state.loading = false

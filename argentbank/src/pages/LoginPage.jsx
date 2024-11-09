@@ -1,16 +1,27 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { userLogin } from '../features/auth/authActions'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 
-function LoginPage(){
+function LoginPage(){  
+  
+  const { userToken } = useSelector((state) => state.auth);
   const dispatch = useDispatch()
   const { register, handleSubmit } = useForm()
+  const navigate = useNavigate()
+  
+  useEffect(() => {
+    if (userToken) {
+      navigate('/profile');
+    }
+  }, [userToken, navigate]);
 
-  const submitForm = (data) => {
-    dispatch(userLogin(data))
+  const submitForm =  (data) => {
+    const result =  dispatch(userLogin(data))
   }
 
   return (
