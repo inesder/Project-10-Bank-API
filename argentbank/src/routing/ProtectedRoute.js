@@ -1,22 +1,21 @@
 import { useSelector } from 'react-redux'
 import { NavLink, Outlet } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
 
 const ProtectedRoute = () => {
-  const { userToken } = useSelector((state) => state.auth)
+  const { userToken } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-  // show unauthorized screen if no user is found in redux store
-  if (!userToken) {
-    return (
-      <div className='unauthorized'>
-        <h1>Unauthorized</h1>
-        <span>
-          <NavLink to='/login'>Login</NavLink> to gain access
-        </span>
-      </div>
-    )
-  }
+  // Redirection automatique vers la page de connexion si l'utilisateur n'est pas authentifié
+  useEffect(() => {
+    if (!userToken) {
+      navigate('/login');
+    }
+  }, [userToken, navigate]);
 
-  // returns child route elements
-  return <Outlet />
-}
-export default ProtectedRoute
+  // Affiche les enfants de la route protégée si l'utilisateur est authentifié
+  return userToken ? <Outlet /> : null;
+};
+
+export default ProtectedRoute;

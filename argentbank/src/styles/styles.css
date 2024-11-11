@@ -23,6 +23,10 @@ html {
     flex: 1;
   }
   
+  a {
+    cursor:pointer;
+  }
+
   .bg-dark {
     background-color: #12002b;
   }
