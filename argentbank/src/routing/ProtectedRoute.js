@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react';
 

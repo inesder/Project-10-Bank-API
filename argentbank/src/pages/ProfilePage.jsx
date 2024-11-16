@@ -1,21 +1,65 @@
 import {useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
-import { userProfile } from '../features/user/userActions';
-
+import { useEffect, useState } from 'react'
+import { userProfile, updateUserProfile } from '../features/user/userActions';
 
 function ProfilePage(){
-    const { userInfos} = useSelector((state) => state.user)
+    const { userInfos } = useSelector((state) => state.user)
     const dispatch = useDispatch()
+    const [isEditing, setIsEditing] = useState(false);
+    const [firstName, setFirstName] = useState(userInfos.firstName);
+    const [lastName, setLastName] = useState(userInfos.lastName);
+    console.log(firstName);
 
     useEffect(() => {
         dispatch(userProfile());
     }, [dispatch]);
 
+
+    const handleEditClick = () => {
+      setIsEditing(true);
+    };
+
+    const handleCancel = () => {
+      setIsEditing(false);
+    }
+
+    const handleSave = () => {
+      dispatch(updateUserProfile({firstName, lastName}));
+      setIsEditing(false);
+    }
+
+
     return(
     <main className="main bg-dark">
     <div className="header">
     <h1>Welcome back <br/>{userInfos.firstName} {userInfos.lastName}</h1>
-    <button className="edit-button">Edit Name</button>
+    {!isEditing && (
+        <button onClick={handleEditClick} className="edit-button">Edit Name</button>
+      )}
+    {isEditing ? (
+        <div >
+          <div className="input-container">
+          <input
+            className="edit-input"
+            type="text"
+            placeholder="Name"
+            onChange={(e)=> setFirstName(e.target.value) }
+          />
+          <input
+            className="edit-input"
+            type="text"
+            placeholder="Lastname"
+            onChange={(e)=> setLastName(e.target.value) }
+          />
+          </div>
+          <div className="edit-button-container"> 
+          <button className="update-button" onClick={handleSave} >Save</button>
+          <button className="update-button" onClick={handleCancel}>Cancel</button>
+          </div>
+        </div>
+      ) : (
+        null
+      )}
       </div>
       <h2 className="sr-only">Accounts</h2>
       <section className="account">

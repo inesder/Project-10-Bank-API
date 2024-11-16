@@ -271,6 +271,39 @@ html {
     color: #fff;
     font-weight: bold;
     padding: 10px;
+    cursor: pointer;
+  }
+
+  .input-container{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .edit-button-container {
+    display: flex;
+    justify-content:center;
+    gap: 20px;
+  }
+
+  .edit-input{
+    height:30px;
+    padding-left:15px;
+    border-radius:3px;
+    border-width:1px;
+  }
+
+  .update-button{
+    color:#00bc77;
+    background-color:#fff;
+    border-color: #00bc77;
+    border-width: 1px;
+    font-weight: bold;
+    cursor: pointer;
+    height:30px;
+    width: 120px;
+    margin-top: 15px;
+    border-radius:3px;
   }
   
   .header {

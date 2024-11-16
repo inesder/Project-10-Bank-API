@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { userProfile } from './userActions'
-
+import { updateUserProfile } from './userActions'
 
 const initialState = {
     loading: false,
@@ -26,6 +26,19 @@ const initialState = {
       state.userInfos = payload.body
     })
     .addCase(userProfile.rejected, (state, { payload }) => {
+      state.loading = false
+      state.error = payload
+    })
+    .addCase(updateUserProfile.pending, (state)=>{
+      state.loading = true
+      state.error = null
+    })
+    .addCase(updateUserProfile.fulfilled, (state, { payload }) => {
+      state.userInfos = { ...state.userInfos, ...payload.body}
+      state.loading = false;
+      localStorage.setItem('userInfos',JSON.stringify(state.userInfos))
+    })
+    .addCase(updateUserProfile.rejected, (state, { payload }) => {
       state.loading = false
       state.error = payload
     })

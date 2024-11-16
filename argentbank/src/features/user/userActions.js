@@ -20,11 +20,9 @@ export const userProfile = createAsyncThunk(
         {},
         config
       )
-      console.log("Données reçues de l'API:", data);
+      console.log("Données reçues de l'API GET USER:", data);
       // store user's infos in local storage
-
       console.log(localStorage)
-      
       return data
     } catch (error) {
       // return custom error message from API if any
@@ -35,4 +33,33 @@ export const userProfile = createAsyncThunk(
       }
     }
   }
+)
+
+export const updateUserProfile = createAsyncThunk(
+  'user/edit',
+  async({firstName, lastName}, {getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.userToken;
+      const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+        }
+        const { data } = await axios.put(
+          `${backendURL}/api/v1/user/profile`,
+          { firstName, lastName },
+        config
+        )
+        console.log("Données reçues de l'API EDIT USER:", data);
+      console.log(localStorage)
+      return data
+      }catch (error) {
+        if (error.response && error.response.data.message) {
+          return rejectWithValue(error.response.data.message)
+        } else {
+          return rejectWithValue(error.message)
+        }
+      }
+    }
 )

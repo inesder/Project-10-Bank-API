@@ -6,13 +6,15 @@ import argentBankLogo from '../assets/argentBankLogo.png'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react'
 import { logout } from '../features/auth/authSlice';
-
+import { userProfile } from '../features/user/userActions';
 
 function Navbar(){
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userToken } = useSelector((state) => state.auth)
+  const { userInfos } = useSelector((state) => state.user)
 
   const handleSignIn = () => {
     navigate('/login');
@@ -22,6 +24,11 @@ function Navbar(){
     dispatch(logout());
     navigate('/')
   }
+
+  useEffect(() => {
+    dispatch(userProfile());
+}, [dispatch]);
+
 
     return(
         <nav className="main-nav">
@@ -33,19 +40,23 @@ function Navbar(){
         />
         <h1 className="sr-only">Argent Bank</h1>
       </a>
-      <div>
         {userToken ?(
+         <div >  
+          <a className='main-nav-item'>
+        <FontAwesomeIcon icon={faCircleUser} />
+        {userInfos.firstName}
+        </a>
         <a className="main-nav-item" onClick={handleSignOut}>
         <FontAwesomeIcon icon={faRightFromBracket} />
           Sign Out
         </a>
+        </div>
         ):(
           <a className="main-nav-item" onClick={handleSignIn}>
         <FontAwesomeIcon icon={faCircleUser} />
           Sign In
         </a>
         )}
-      </div>
     </nav>
     )
 }
